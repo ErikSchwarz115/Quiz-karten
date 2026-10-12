@@ -161,7 +161,12 @@ sub, sup { line-height: 0; }
 .flash-q { display: block; font-size: 1.2rem; font-weight: 600; line-height: 1.35; text-wrap: pretty; overflow-wrap: anywhere; }
 .flash-back { display: flex; flex-direction: column; gap: 8px; border-top: 1.5px dashed var(--line); padding-top: 14px; animation: reveal .2s ease-out; }
 .flash-a { display: block; font-weight: 600; font-size: 1.08rem; color: var(--ok); overflow-wrap: anywhere; }
-.flash-e { display: block; font-size: 15px; color: var(--ink-soft); overflow-wrap: anywhere; }
+.flash-q { font-family: var(--f-display); font-weight: 700; font-size: 1.6rem; line-height: 1.12; letter-spacing: .01em; color: var(--ink); overflow-wrap: break-word; -webkit-hyphens: auto; hyphens: auto; }
+.flash-a { color: var(--fg); font-size: 1.1rem; line-height: 1.4; }
+.flash-e { display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: var(--fg); overflow-wrap: anywhere; }
+.flash-e .li { display: block; position: relative; padding-left: 16px; }
+.flash-e .li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 1px; background: var(--ink); }
+.flash-e .merk { display: block; margin-top: 4px; padding: 6px 10px; background: var(--marker-soft); color: var(--fg); border-radius: 3px; font-weight: 600; }
 .flash-hint { margin-top: auto; font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
 .rate { flex-wrap: nowrap; }
 .rate .btn { flex: 1 1 0; min-width: 0; }
@@ -175,7 +180,7 @@ html, body { margin: 0; }
 
 </head>
 <body>
-<main class="app">
+<main class="app" lang="de">
   <header>
     <div class="eyebrow">AERO-Bildung · Modul 3</div>
     <h1><span>Elektronik</span>-Grundlagen</h1>
@@ -524,6 +529,112 @@ html, body { margin: 0; }
     { c: "wechsel", n: "Seite 22", q: "Was gilt bei einer symmetrischen Rechteckspannung für den Effektivwert?", a: ["U<sub>eff</sub> entspricht dem Spitzenwert U<sub>s</sub>", "U<sub>eff</sub> = 0,707 · U<sub>s</sub>", "U<sub>eff</sub> = 1,41 · U<sub>s</sub>", "U<sub>eff</sub> ist immer null"], e: "Eine Rechteckspannung hat ständig den vollen Betrag. Deshalb entspricht ihr Effektivwert dem Spitzenwert. Der Faktor 0,707 gilt nur für Sinus." }
   ];
 
+  // Lernkarten: f = Vorderseite, a = Kernaussage, d = Details, m = Merksatz
+  var CARDS = [
+    // Atomaufbau
+    { c: "atom", n: 1, f: "Aufbau eines Atoms", a: "Atomkern aus Protonen (+) und Neutronen (ungeladen), Hülle aus Elektronen (−).", d: ["Die Elektronen der äußersten Schale heißen Valenzelektronen (Valenzschale).", "Sie sind am schwächsten gebunden und können zu freien Ladungsträgern werden."] },
+    { c: "atom", n: 2, f: "Welche Teilchen tragen die Elementarladung?", a: "Proton: kleinste positive Ladung. Elektron: kleinste negative Ladung.", d: ["Neutronen sind ungeladen."] },
+    { c: "atom", n: 3, f: "Elektrische Ladung Q: Einheit", a: "Coulomb [C] = Amperesekunde [As].", d: ["Q = I · t"] },
+    { c: "atom", n: 4, f: "Valenzelektronen eines Halbleiters", a: "Vier Valenzelektronen, zum Beispiel bei Silizium und Germanium." },
+    { c: "atom", n: 5, f: "Leitfähigkeit und Ladungsträger", a: "Je mehr freie Ladungsträger, desto besser leitet ein Stoff.", d: ["Je größer der Widerstand, desto schlechter leitet er (Notiz 18)."] },
+    { c: "atom", n: 6, f: "Besetzung der Elektronen&shy;schalen", a: "Auf der äußersten Schale sitzen höchstens 8 Elektronen, auf der ersten Schale höchstens 2.", d: ["Allgemein fasst die Schale n höchstens 2n² Elektronen: 2, 8, 18, 32."] },
+    { c: "atom", n: 7, f: "Wie entstehen positive und negative Ionen?", a: "Gibt ein Atom ein Elektron ab, entsteht ein positives Ion. Nimmt es eines auf, entsteht ein negatives Ion." },
+    { c: "atom", n: 8, f: "P- und N-Schicht eines Halbleiters", a: "P-Schicht: mit dreiwertigen Fremdatomen dotiert. N-Schicht: mit fünfwertigen Fremdatomen dotiert.", d: ["P: Elektronenmangel, „Löcher“ sind die Ladungsträger.", "N: Elektronenüberschuss, freie Elektronen sind die Ladungsträger."] },
+
+    // Spannung & Strom
+    { c: "strom", n: 9, f: "Was ist elektrische Spannung?", a: "Die Potentialdifferenz zwischen zwei Polen. Einheit Volt [V]." },
+    { c: "strom", n: 10, f: "Wie misst man Spannung und Strom?", a: "Spannung parallel zum Verbraucher, Strom in Reihe.", d: ["Beim Messen des Stroms muss der Strom durch das Messgerät fließen (Notiz 13)."] },
+    { c: "strom", n: 12, f: "Technische Stromrichtung", a: "Außen von + nach −, innen im Erzeuger von − nach +.", d: ["Die Elektronen fließen tatsächlich andersherum: außen von − nach +."] },
+    { c: "strom", n: 14, f: "Stromdichte", a: "Stromstärke pro Querschnitt: J = I / A.", d: ["Halber Querschnitt bei gleichem Strom ergibt doppelte Stromdichte und damit mehr Wärme."] },
+    { c: "strom", n: 15, f: "Aufgabe einer Sicherung", a: "Sie schützt das Leitungsnetz vor zu hohem Strom.", d: ["Beispiel: Eine Leitung mit 1,5 mm² wird üblicherweise mit 16 A abgesichert."] },
+
+    // Spannungsquellen
+    { c: "quellen", n: 11, f: "Spannungsquellen und ihre Spannungsart", a: "Generator: Wechselspannung (WS, AC). Batterie, Thermoelement, Solarzelle: Gleichspannung (GS, DC).", d: ["Piezoelement: erzeugt Spannung durch Druck. Sie folgt der Belastungsänderung."] },
+    { c: "quellen", n: 16, f: "Galvanisches Element", a: "Eine Zelle aus zwei unterschiedlichen Elektroden in einem Elektrolyten. Sie erzeugt Spannung durch eine chemische Reaktion.", d: ["Das ist das Prinzip der Batterie. Mehrere Zellen zusammen bilden eine Batterie."] },
+    { c: "quellen", n: 17, f: "Wie erzeugt ein Generator Spannung?", a: "Durch Magnetismus, genauer durch Induktion." },
+    { c: "quellen", n: 32, f: "Primär- und Sekundärelement", a: "Primärelement = Batterie, nicht wieder aufladbar. Sekundärelement = Akkumulator, wieder aufladbar." },
+    { c: "quellen", n: "Seite 13", f: "Spannungsquellen in Reihe", a: "Spannung steigt, Kapazität bleibt gleich, Innenwiderstand steigt.", d: ["Beispiel: 3 × 1,5 V / 100 mAh ergibt 4,5 V / 100 mAh."] },
+    { c: "quellen", n: "Seite 13", f: "Spannungsquellen parallel", a: "Spannung bleibt gleich, Kapazität steigt, Innenwiderstand sinkt.", d: ["Beispiel: 3 × 1,5 V / 100 mAh ergibt 1,5 V / 300 mAh.", "Nur Quellen mit gleicher Spannung parallel schalten, sonst fließen Ausgleichsströme."] },
+    { c: "quellen", n: 30, f: "Spannungs-, Strom- und Leistungs&shy;anpassung", a: "Spannungsanpassung: R<sub>Last</sub> ≫ R<sub>i</sub>. Stromanpassung: R<sub>Last</sub> ≪ R<sub>i</sub>. Leistungsanpassung: R<sub>Last</sub> = R<sub>i</sub>.", d: ["Bei Leistungsanpassung gibt die Quelle die größte Leistung ab, der Wirkungsgrad beträgt nur 50 %."] },
+
+    // Widerstand
+    { c: "wid", n: 19, f: "Ohmsches Gesetz", a: "U = R · I", d: ["Umgestellt: R = U / I und I = U / R.", "Merkdreieck: U oben, R und I unten."] },
+    { c: "wid", n: 20, f: "Wovon hängt der Widerstand eines Leiters ab?", a: "Vom Material (spezifischer Widerstand bei 20 °C), von der Temperatur, der Länge und dem Querschnitt.", d: ["R = ρ · l / A: längerer Leiter, größerer Widerstand. Dickerer Leiter, kleinerer Widerstand."] },
+    { c: "wid", n: 21, f: "NTC", a: "Negativer Temperaturbeiwert, Heißleiter: Temperatur steigt, Widerstand sinkt.", d: ["Typisch: Halbleiter."] },
+    { c: "wid", n: 22, f: "PTC", a: "Positiver Temperaturbeiwert, Kaltleiter: Temperatur steigt, Widerstand steigt.", d: ["Typisch: Metalle. Technische Kaltleiter (PTC-Thermistoren) bestehen oft aus Keramik."] },
+    { c: "wid", n: 23, f: "Widerstands&shy;kennlinie (I über U)", a: "Je flacher die Kennlinie, desto größer der Widerstand.", d: ["Bei gleicher Spannung fließt dann weniger Strom."] },
+    { c: "wid", n: 24, f: "Widerstandsgruppen", a: "Festwiderstände, physikalische Widerstände (z. B. NTC, PTC) und mechanisch veränderbare Widerstände (z. B. Potentiometer)." },
+
+    // Leistung & Arbeit
+    { c: "leist", n: 25, f: "Formeln für die elektrische Leistung", a: "P = U · I, Einheit Watt [W].", d: ["P = U² / R", "P = R · I²"] },
+    { c: "leist", n: 25, f: "Elektrische Arbeit", a: "W = U · I · t = P · t", d: ["Einheit Wattsekunde [Ws], im Alltag Kilowattstunde [kWh]."] },
+    { c: "leist", n: 26, f: "Wirkungsgrad η", a: "η = P<sub>ab</sub> / P<sub>zu</sub>, immer kleiner als 1.", d: ["Grund sind Verluste, zum Beispiel Wärme."] },
+
+    // Schaltungen
+    { c: "schalt", n: 27, f: "Reihen&shy;schaltung von Widerständen", a: "Strom überall gleich. Spannungen und Widerstände addieren sich: R<sub>G</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub>.", d: ["Am größten Widerstand fällt die größte Spannung ab.", "Nachteil: Fällt ein Bauteil aus, geht alles aus."] },
+    { c: "schalt", n: 28, f: "Parallel&shy;schaltung von Widerständen", a: "Spannung überall gleich. Der Strom teilt sich auf: 1/R<sub>G</sub> = 1/R<sub>1</sub> + 1/R<sub>2</sub> + 1/R<sub>3</sub>.", d: ["Der Gesamtwiderstand ist kleiner als der kleinste Einzelwiderstand.", "Zwei gleiche Widerstände parallel: R<sub>G</sub> = R / 2."] },
+    { c: "schalt", n: 28, f: "1. Kirchhoff&shy;sches Gesetz (Knotenregel)", a: "In einem Knoten ist die Summe der zufließenden Ströme gleich der Summe der abfließenden Ströme.", d: ["Beispiel: I<sub>1</sub> + I<sub>2</sub> = I<sub>3</sub> + I<sub>4</sub>. Mit Vorzeichen ist die Summe null."] },
+    { c: "schalt", n: 27, f: "2. Kirchhoff&shy;sches Gesetz (Maschenregel)", a: "In einer Masche ist die Summe der Quellenspannungen gleich der Summe der Spannungsfälle.", d: ["Mit Vorzeichen ist die Summe aller Spannungen in der Masche null."] },
+    { c: "schalt", n: 29, f: "Wheatstone-Brücke", a: "Brückenschaltung zur genauen Widerstandsmessung, zum Beispiel für Temperaturmessung mit einem temperaturabhängigen Widerstand.", d: ["Abgeglichen, wenn R<sub>1</sub> / R<sub>2</sub> = R<sub>3</sub> / R<sub>4</sub>. Dann fließt kein Strom durch die Brücke."] },
+
+    // Kondensator
+    { c: "kond", n: "Seite 14", f: "Kapazität: Definition und Einheit", a: "C = Q / U, Einheit Farad [F] = As/V." },
+    { c: "kond", n: "Seite 14", f: "Plattenkondensator: Wovon hängt C ab?", a: "C = ε<sub>0</sub> · ε<sub>r</sub> · A / d", d: ["Größere Plattenfläche A: größere Kapazität.", "Größerer Plattenabstand d: kleinere Kapazität.", "Besseres Dielektrikum (größeres ε<sub>r</sub>): größere Kapazität."] },
+    { c: "kond", n: "Seite 14", f: "ε, ε<sub>0</sub> und ε<sub>r</sub>", a: "ε = ε<sub>0</sub> · ε<sub>r</sub>", d: ["ε: Permittivität", "ε<sub>0</sub>: elektrische Feldkonstante", "ε<sub>r</sub>: Permittivitätszahl des Dielektrikums, im Vakuum genau 1, bei Luft ≈ 1", "ε<sub>0</sub> ≈ 8,85 · 10⁻¹² As/(Vm)"] },
+    { c: "kond", n: "Seite 14", f: "Zeitkonstante τ beim Kondensator", a: "τ = R · C", d: ["Nach 1 τ ist der Kondensator zu 63 % geladen.", "Nach 5 τ ist er praktisch voll (über 99 %).", "Beispiel: 100 Ω · 0,1 F = 10 s."] },
+    { c: "kond", n: "Seite 14", f: "Laden und Entladen eines Kondensators", a: "Laden: Der Strom ist zu Beginn am größten und fällt ab. Die Spannung steigt bis zur Quellenspannung.", d: ["Entladen: Die Spannung fällt ab, der Strom fließt in Gegenrichtung und klingt ab."] },
+    { c: "kond", n: "Seite 14", f: "Angabe „2 µF / 33 V“ auf einem Kondensator", a: "2 µF ist die Kapazität, 33 V die höchste zulässige Spannung (Nennspannung)." },
+    { c: "kond", n: "Seite 15", f: "ELKO", a: "Elektrolytkondensator: gepolt (+ und −), nur an Gleichspannung verwendbar.", d: ["Falsch gepolt oder an Wechselspannung kann er zerstört werden."] },
+    { c: "kond", n: "Seite 15", f: "Kondensatoren in Reihe und parallel", a: "Reihe: 1/C<sub>G</sub> = 1/C<sub>1</sub> + 1/C<sub>2</sub> + 1/C<sub>3</sub>. Parallel: C<sub>G</sub> = C<sub>1</sub> + C<sub>2</sub> + C<sub>3</sub>.", d: ["Genau umgekehrt wie bei Widerständen.", "Parallel steigt die Kapazität, in Reihe ist sie kleiner als die kleinste Einzelkapazität."] },
+
+    // Magnetismus & Spule
+    { c: "mag", n: "Seite 16", f: "Feldlinien eines Stabmagneten", a: "Außen von N nach S, innen von S nach N.", d: ["Magnetfeldlinien sind immer geschlossen."] },
+    { c: "mag", n: "Seite 16", f: "Magnetfeld um einen strom&shy;durchflossenen Leiter", a: "Es verläuft kreisförmig um den Leiter. Je mehr Strom, desto stärker das Feld.", d: ["Die Richtung gibt die Rechte-Hand-Regel (Schraubenregel) an."] },
+    { c: "mag", n: "Seite 16", f: "Zwei parallele strom&shy;durchflossene Leiter", a: "Gleiche Stromrichtung: Sie ziehen sich an. Entgegengesetzte Stromrichtung: Sie stoßen sich ab." },
+    { c: "mag", n: "Seite 16", f: "Wodurch wird das Feld einer Spule stärker?", a: "Durch mehr Windungen und mehr Strom.", d: ["Ein Eisenkern verstärkt das Feld zusätzlich.", "Eine Spule verhält sich wie ein Stabmagnet."] },
+    { c: "mag", n: "Seite 17", f: "Magnetischer Fluss Φ", a: "Die Gesamtheit aller magnetischen Feldlinien. Einheit Weber [Wb].", d: ["Φ = B · A"] },
+    { c: "mag", n: "Seite 17", f: "Durchflutung Θ", a: "Θ = I · N (Strom mal Windungszahl). Einheit Ampere [A].", d: ["Die Summe der Ströme durch alle Leiter."] },
+    { c: "mag", n: "Seite 17", f: "Magnetische Feldstärke H", a: "H = Θ / l<sub>m</sub> = I · N / l<sub>m</sub>, Einheit A/m.", d: ["l<sub>m</sub>: mittlere Feldlinienlänge oder Spulenlänge."] },
+    { c: "mag", n: "Seite 17", f: "Magnetische Flussdichte B", a: "B = Φ / A, Einheit Tesla [T] = Wb/m²." },
+    { c: "mag", n: "Seite 18", f: "Permeabilität μ", a: "μ = B / H = μ<sub>0</sub> · μ<sub>r</sub>", d: ["μ<sub>0</sub>: magnetische Feldkonstante", "μ<sub>r</sub>: Permeabilitätszahl", "Luft: μ<sub>r</sub> ≈ 1. Eisen: μ<sub>r</sub> sehr groß, die B-H-Kurve geht in die Sättigung."] },
+    { c: "mag", n: "Seite 18", f: "Ferro-, para- und dia&shy;magnetische Werkstoffe", a: "Ferromagnetisch: μ<sub>r</sub> ≫ 1 (z. B. Eisen). Paramagnetisch: μ<sub>r</sub> &gt; 1. Diamagnetisch: μ<sub>r</sub> &lt; 1." },
+
+    // Motor, Generator & Trafo
+    { c: "motor", n: "Seite 19", f: "Linke-Hand-Regel (Motor)", a: "Finger: technische Stromrichtung (+ nach −). Das Magnetfeld tritt in die Handfläche ein. Daumen: Bewegungsrichtung." },
+    { c: "motor", n: "Seite 19", f: "Kraft auf einen Leiter im Magnetfeld", a: "F = B · I · l · z", d: ["B: Flussdichte, I: Strom, l: wirksame Leiterlänge, z: Anzahl der Leiter.", "Die Formel gilt, wenn Feld und Leiter senkrecht zueinander stehen."] },
+    { c: "motor", n: "Seite 19", f: "Kommutator", a: "Stromwender, ein mechanischer Gleichrichter.", d: ["Im Motor kehrt er die Stromrichtung in der Spule im richtigen Moment um, damit sie sich weiterdreht.", "Im Generator macht er aus der Wechselspannung eine pulsierende Gleichspannung."] },
+    { c: "motor", n: "Seite 20", f: "Induktionsspannung", a: "U<sub>i</sub> = B · l · v · z", d: ["v: Geschwindigkeit des Leiters.", "Sie entsteht, wenn ein Leiter quer zu den Feldlinien bewegt wird oder sich das Magnetfeld ändert.", "Allgemein: U<sub>i</sub> = N · ΔΦ / Δt. Nach der Lenzschen Regel wirkt die induzierte Spannung ihrer Ursache entgegen."] },
+    { c: "motor", n: "Seite 20", f: "Handregeln für Generator und Motor", a: "Generator: rechte Hand. Motor: linke Hand." },
+    { c: "motor", n: "Seite 20", f: "Gleichstromgenerator", a: "Ein Generator mit Kommutator. Er liefert pulsierende Gleichspannung.", d: ["Ohne Kommutator liefert der Generator Wechselspannung."] },
+    { c: "motor", n: "Seite 21", f: "Transformator: Aufbau und Funktion", a: "Primärspule (N<sub>p</sub>) und Sekundärspule (N<sub>s</sub>) auf einem gemeinsamen Kern. Er transformiert Wechselspannung herauf oder herunter.", d: ["Er funktioniert nur mit Wechselspannung, weil nur ein sich änderndes Magnetfeld eine Spannung induziert."] },
+    { c: "motor", n: "Seite 21", f: "Übersetzungs&shy;verhältnis des Transformators", a: "N<sub>p</sub> / N<sub>s</sub> = U<sub>p</sub> / U<sub>s</sub>", d: ["Gleichbedeutend: U<sub>p</sub> / N<sub>p</sub> = U<sub>s</sub> / N<sub>s</sub>.", "Mehr Windungen auf der Sekundärseite ergeben eine höhere Spannung.", "Beispiel: 230 V bei 1000 : 50 Windungen ergibt 11,5 V.", "Ströme umgekehrt: I<sub>p</sub> / I<sub>s</sub> = N<sub>s</sub> / N<sub>p</sub>. Beim idealen Trafo gilt U<sub>p</sub> · I<sub>p</sub> = U<sub>s</sub> · I<sub>s</sub>: hohe Spannung, kleiner Strom."] },
+
+    // Induktivität
+    { c: "induk", n: "Seite 21", f: "Induktivität einer Spule", a: "L = N² · μ · A / l, Einheit Henry [H].", d: ["Doppelte Windungszahl ergibt vierfache Induktivität.", "Ein Eisenkern (großes μ) erhöht die Induktivität."] },
+    { c: "induk", n: "Seite 21", f: "Zeitkonstante τ bei der Spule", a: "τ = L / R", d: ["Einschalten: Der Strom steigt langsam an, nach 1 τ auf 63 %, nach 5 τ praktisch auf den Endwert.", "Die Induktionsspannung ist beim Einschalten am größten und sinkt dann ab."] },
+    { c: "induk", n: "Seite 21", f: "Ausschalten einer Spule", a: "Die Induktionsspannung kehrt ihre Richtung um. Der Strom klingt ab, wenn er weiterfließen kann (z. B. über eine Freilaufdiode).", d: ["Der Strom fließt in derselben Richtung weiter und wird dabei kleiner.", "Ohne Strompfad entsteht eine hohe Spannungsspitze."] },
+    { c: "induk", n: "Seite 21", f: "Spulen in Reihe und parallel", a: "Reihe: L<sub>G</sub> = L<sub>1</sub> + L<sub>2</sub> + L<sub>3</sub>. Parallel: 1/L<sub>G</sub> = 1/L<sub>1</sub> + 1/L<sub>2</sub> + 1/L<sub>3</sub>.", d: ["Wie bei Widerständen.", "n gleiche Spulen parallel: L<sub>G</sub> = L / n."] },
+
+    // Wechselstrom
+    { c: "wechsel", n: "Seite 22", f: "Sinusspannung: Periode, Amplitude, Spitzenwerte", a: "Periode: eine volle Schwingung (0° bis 360°). Amplitude (Scheitelwert): vom Nullpunkt bis zum Maximum.", d: ["+U<sub>s</sub>: positiver Spitzenwert bei 90°, −U<sub>s</sub>: negativer Spitzenwert bei 270°.", "U<sub>ss</sub>: Spitze-Spitze-Wert, U<sub>ss</sub> = 2 · U<sub>s</sub>."] },
+    { c: "wechsel", n: "Seite 22", f: "Frequenz und Periodendauer", a: "f = 1 / T, Einheit Hertz [Hz]: Schwingungen pro Sekunde.", d: ["50 Hz: T = 20 ms.", "400 Hz (Bordnetz): T = 2,5 ms.", "Längere Periodendauer bedeutet kleinere Frequenz."] },
+    { c: "wechsel", n: "Seite 22", f: "Frequenz eines Generators", a: "f = p · n", d: ["p: Polpaarzahl, n: Drehzahl in Umdrehungen pro Sekunde.", "Mit n in Umdrehungen pro Minute: f = p · n / 60."] },
+    { c: "wechsel", n: "Seite 22", f: "Effektivwert einer Sinusspannung", a: "U<sub>eff</sub> = 0,707 · U<sub>s</sub>, umgekehrt U<sub>s</sub> = 1,41 · U<sub>eff</sub>.", d: ["Die 230 V im Hausnetz sind der Effektivwert. Der Spitzenwert liegt bei etwa 325 V.", "Bei einer Rechteckspannung gilt U<sub>eff</sub> = U<sub>s</sub>."] },
+    { c: "wechsel", n: "Seite 23", f: "Widerstand R im Wechsel&shy;stromkreis", a: "Strom und Spannung sind in Phase, es gibt keine Phasenverschiebung.", d: ["R ist frequenzunabhängig."] },
+    { c: "wechsel", n: "Seite 23", f: "Kondensator im Wechsel&shy;stromkreis", a: "Der Strom eilt der Spannung um 90° voraus.", d: ["Kapazitiver Blindwiderstand: X<sub>C</sub> = 1 / (2π · f · C).", "X<sub>C</sub> sinkt mit steigender Frequenz."] },
+    { c: "wechsel", n: "Seite 24", f: "Spule im Wechsel&shy;stromkreis", a: "Die Spannung eilt dem Strom um 90° voraus.", d: ["Induktiver Blindwiderstand: X<sub>L</sub> = 2π · f · L.", "X<sub>L</sub> steigt linear mit der Frequenz."], m: "Bei Induktivitäten verspäten sich die Ströme." },
+    { c: "wechsel", n: "Seite 24", f: "Welches Bauteil sperrt welche Frequenzen?", a: "Der Kondensator sperrt tiefe Frequenzen, die Spule sperrt hohe Frequenzen.", d: ["Grund: X<sub>C</sub> sinkt mit der Frequenz, X<sub>L</sub> steigt."] },
+    { c: "wechsel", n: "Seite 23", f: "Wirk-, Blind- und Scheinleistung", a: "P = Wirkleistung in Watt [W], Q = Blindleistung in VAR, S = Scheinleistung in VA.", d: ["Leistungsdreieck: S = √(P² + Q²).", "S ist nicht das Produkt aus P und Q.", "Leistungsfaktor: cos φ = P / S, also P = S · cos φ und Q = S · sin φ."] },
+    { c: "wechsel", n: "Seite 25", f: "Impedanz Z", a: "Der Gesamtwiderstand bei Spulen und Kondensatoren (Scheinwiderstand).", d: ["R und C in Reihe: Z = √(R² + X<sub>C</sub>²).", "R und L in Reihe: Z = √(R² + X<sub>L</sub>²).", "Beispiel: R = 30 Ω und X<sub>C</sub> = 40 Ω ergeben Z = 50 Ω.", "R, L und C in Reihe: Z = √(R² + (X<sub>L</sub> − X<sub>C</sub>)²)."] },
+    { c: "wechsel", n: "Seite 25", f: "Gesamtspannung bei R und C in Reihe", a: "U<sub>G</sub> = √(U<sub>R</sub>² + U<sub>C</sub>²)", d: ["Die Teilspannungen sind um 90° verschoben und dürfen nicht einfach addiert werden.", "Beispiel: 6 V und 8 V ergeben 10 V."] },
+    { c: "wechsel", n: "Seite 26", f: "Tiefpass und Hochpass", a: "Tiefpass: lässt niedrige Frequenzen durch. Hochpass: lässt hohe Frequenzen durch.", d: ["RC-Tiefpass: Widerstand vorgeschaltet, Ausgang am Kondensator.", "RC-Hochpass: Kondensator vorgeschaltet, Ausgang am Widerstand."] },
+
+    // Drehstrom & Generator
+    { c: "dreh", n: "Seite 27", f: "Außenpol- und Innenpol&shy;maschine", a: "Außenpol: Erregerwicklung im Stator. Innenpol: Erregerwicklung im Rotor (Polrad).", d: ["Bei der Innenpolmaschine wird die Spannung in den Statorwicklungen induziert (Ankerwicklung)."] },
+    { c: "dreh", n: "Seite 27", f: "Drehstrom: Phasenlage", a: "Drei Phasen A, B und C, jeweils um 120° gegeneinander verschoben.", d: ["Vertauscht man zwei Phasen, ändert sich die Drehrichtung."] },
+    { c: "dreh", n: "Seite 27", f: "Stern- und Dreieckschaltung", a: "Stern: Die Wicklungen sind im Sternpunkt verbunden, ein Neutralleiter N ist möglich. Dreieck: kein Neutralleiter.", d: ["Bei Generatoren, zum Beispiel im Flugzeug, wird die Sternschaltung wegen des Neutralleiters bevorzugt.", "Im Flugzeug: 115 V zwischen Phase und N, 200 V zwischen zwei Phasen.", "Stern: Leiterspannung = √3 · Strangspannung (115 V · √3 ≈ 200 V). Dreieck: Leiterspannung = Strangspannung, Leiterstrom = √3 · Strangstrom."] }
+  ];
+
   var $ = function (id) { return document.getElementById(id); };
   var deck = [], idx = 0, score = 0, locked = false, missed = [], current = null;
 
@@ -543,15 +654,16 @@ html, body { margin: 0; }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   function strip(h) { return h.replace(/<[^>]+>/g, "").replace(/&gt;/g, ">").replace(/&lt;/g, "<"); }
 
-  $("lead").textContent = Q.length + " Fragen als Quiz mit vier Antworten oder als Karteikarten zum Umdrehen. Nach jeder Antwort siehst du die Erklärung.";
+  $("lead").textContent = Q.length + " Quizfragen und " + CARDS.length + " Lernkarten aus deinen Notizen. Im Quiz kreuzt du an, mit den Lernkarten wiederholst du das Wissen selbst.";
 
   // Stabile Kennung je Karte, damit der Fortschritt auch nach Updates erhalten bleibt
   function hid(s) { var h = 5381; for (var i = 0; i < s.length; i++) { h = ((h << 5) + h + s.charCodeAt(i)) | 0; } return "k" + (h >>> 0).toString(36); }
-  Q.forEach(function (q) { q.id = hid(q.q + "|" + q.a[0]); });
+  CARDS.forEach(function (c) { c.id = hid(c.f); });
   var known = {};
-  try { known = JSON.parse(lsGet("elq-known") || "{}") || {}; } catch (e) { known = {}; }
-  function saveKnown() { lsSet("elq-known", JSON.stringify(known)); }
+  try { known = JSON.parse(lsGet("elq-cards") || "{}") || {}; } catch (e) { known = {}; }
+  function saveKnown() { lsSet("elq-cards", JSON.stringify(known)); }
   function mode() { return $("modeCards").checked ? "cards" : "quiz"; }
+  function source() { return mode() === "cards" ? CARDS : Q; }
 
   // Themen-Chips
   var chips = $("chips");
@@ -572,16 +684,20 @@ html, body { margin: 0; }
     var all = n === Object.keys(CATS).length;
     $("toggleAll").textContent = all ? "Alle abwählen" : "Alle auswählen";
     var cards = mode() === "cards";
-    $("startBtn").textContent = cards ? "Karten starten" : "Quiz starten";
+    chips.querySelectorAll("label").forEach(function (lab) {
+      var key = lab.querySelector("input").value;
+      lab.querySelector("em").textContent = source().filter(function (q) { return q.c === key; }).length;
+    });
+    $("startBtn").textContent = cards ? "Lernkarten starten" : "Quiz starten";
     $("countLegend").textContent = cards ? "Anzahl Karten" : "Anzahl Fragen";
     $("skipWrap").hidden = !cards;
     $("cardInfo").hidden = !cards;
     $("last").hidden = cards || !lsGet("elq-last");
     if (cards) {
       var cats = selectedCats();
-      var pool = Q.filter(function (q) { return cats.indexOf(q.c) > -1; });
+      var pool = CARDS.filter(function (q) { return cats.indexOf(q.c) > -1; });
       var k = pool.filter(function (q) { return known[q.id]; }).length;
-      $("cardStat").innerHTML = 'Gewusst: <strong>' + k + ' von ' + pool.length + '</strong> Karten der gewählten Themen';
+      $("cardStat").innerHTML = 'Gewusst: <strong>' + k + ' von ' + pool.length + '</strong> Lernkarten der gewählten Themen';
     }
     resetArmed = false;
     $("resetCards").textContent = "Fortschritt zurücksetzen";
@@ -623,7 +739,7 @@ html, body { margin: 0; }
   }
   $("startBtn").addEventListener("click", function () {
     var cats = selectedCats();
-    var pool = Q.filter(function (q) { return cats.indexOf(q.c) > -1; });
+    var pool = source().filter(function (q) { return cats.indexOf(q.c) > -1; });
     var cards = mode() === "cards";
     if (cards && $("skipKnown").checked) {
       pool = pool.filter(function (q) { return !known[q.id]; });
@@ -652,11 +768,12 @@ html, body { margin: 0; }
     $("flash").setAttribute("aria-expanded", "false");
     $("cRef").textContent = (typeof cCur.n === "number" ? "Notiz " : "") + cCur.n;
     $("cCat").textContent = CATS[cCur.c];
-    $("cQ").innerHTML = cCur.q;
-    $("cA").innerHTML = cCur.a[0];
-    $("cE").innerHTML = cCur.e;
+    $("cQ").innerHTML = cCur.f;
+    $("cA").innerHTML = cCur.a;
+    $("cE").innerHTML = (cCur.d || []).map(function (x) { return '<span class="li">' + x + '</span>'; }).join("")
+      + (cCur.m ? '<span class="merk">Merksatz: ' + cCur.m + '</span>' : "");
     $("cBack").hidden = true;
-    $("cHint").textContent = "Tippen zum Umdrehen";
+    $("cHint").textContent = "Erst selbst erklären, dann tippen zum Umdrehen";
     $("cRate").hidden = true;
     $("cPos").textContent = "Gewusst: " + cKnown + " von " + cTotal;
     $("cOpen").textContent = "Noch offen: " + cQueue.length;
@@ -671,7 +788,7 @@ html, body { margin: 0; }
     $("flash").setAttribute("aria-expanded", String(cFlipped));
     $("cBack").hidden = !cFlipped;
     $("cRate").hidden = !cFlipped;
-    $("cHint").textContent = cFlipped ? "Wusstest du es? Bewerte dich unten." : "Tippen zum Umdrehen";
+    $("cHint").textContent = cFlipped ? "Wusstest du es? Bewerte dich unten." : "Erst selbst erklären, dann tippen zum Umdrehen";
   }
   function rateKnew() {
     if (!cFlipped) return;
